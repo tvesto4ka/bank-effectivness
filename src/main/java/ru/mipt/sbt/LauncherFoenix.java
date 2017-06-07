@@ -148,17 +148,10 @@ public class LauncherFoenix extends Application {
             }
         });
 
-        JFXButton exitBtn = new JFXButton();
-        exitBtn.setText("Выйти из программы");
-        exitBtn.getStyleClass().add("button-raised");
-        exitBtn.setCancelButton(true);
-        exitBtn.setOnAction(event -> primaryStage.close());
-
-
         GridPane pane = new GridPane();
         pane.setAlignment(Pos.TOP_LEFT);
-        pane.setHgap(10);
-        pane.setVgap(10);
+        pane.setHgap(15);
+        pane.setVgap(15);
         pane.setPadding(new Insets(25, 25, 25, 25));
 
 
@@ -176,8 +169,6 @@ public class LauncherFoenix extends Application {
         pane.add(printInFileBtn, 0, 4);
         pane.add(reportFile, 0, 5);
 
-        pane.add(exitBtn, 2, 0);
-
         pane.setStyle("-fx-background-color:WHITE");
 
         StackPane stackPane = new StackPane();
@@ -189,7 +180,6 @@ public class LauncherFoenix extends Application {
         scene.getStylesheets().add(this.getClass().getResource("/jfoenix-components.css").toExternalForm());
 
         primaryStage.setScene(scene);
-//        primaryStage.setFullScreen(true);
         primaryStage.show();
     }
 }

@@ -28,7 +28,7 @@ public class InterfaceAnalysisReportWriter implements AnalysisResultWriter {
 
     public String writeNotNormalResults(Map<Norms, List<Value>> analysisResult) {
 
-        StringBuilder result = new StringBuilder("\nПОКАЗАТЕЛИ НЕ В НОРМЕ:\n");
+        StringBuilder result = new StringBuilder("ПОКАЗАТЕЛИ НЕ В НОРМЕ:\n");
         for (Norms norms : analysisResult.keySet()) {
             for (Value value : analysisResult.get(norms)) {
                 if (!norms.isNormal(value.getValue())) {
