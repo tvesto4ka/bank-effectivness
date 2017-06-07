@@ -1,8 +1,8 @@
-package ru.mipt.sbt.refactor.writer.impl;
+package ru.mipt.sbt.writer.impl;
 
-import ru.mipt.sbt.refactor.builder.Norms;
-import ru.mipt.sbt.refactor.builder.Value;
-import ru.mipt.sbt.refactor.writer.AnalysisResultWriter;
+import ru.mipt.sbt.builder.Norms;
+import ru.mipt.sbt.builder.Value;
+import ru.mipt.sbt.writer.AnalysisResultWriter;
 
 import java.io.File;
 import java.util.List;

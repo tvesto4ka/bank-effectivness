@@ -1,13 +1,6 @@
-package ru.mipt.sbt.refactor;
+package ru.mipt.sbt;
 
-import com.jfoenix.controls.JFXDecorator;
-import com.jfoenix.svg.SVGGlyphLoader;
-import io.datafx.controller.flow.Flow;
-import io.datafx.controller.flow.container.DefaultFlowContainer;
-import io.datafx.controller.flow.context.FXMLViewFlowContext;
-import io.datafx.controller.flow.context.ViewFlowContext;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -22,15 +15,14 @@ import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import ru.mipt.sbt.refactor.builder.AnalysisService;
-import ru.mipt.sbt.refactor.builder.Norms;
-import ru.mipt.sbt.refactor.builder.Value;
-import ru.mipt.sbt.refactor.reader.BankReportInfo;
-import ru.mipt.sbt.refactor.reader.ReaderService;
-import ru.mipt.sbt.refactor.writer.WriterService;
+import ru.mipt.sbt.builder.AnalysisService;
+import ru.mipt.sbt.builder.Norms;
+import ru.mipt.sbt.builder.Value;
+import ru.mipt.sbt.reader.BankReportInfo;
+import ru.mipt.sbt.reader.ReaderService;
+import ru.mipt.sbt.writer.WriterService;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 

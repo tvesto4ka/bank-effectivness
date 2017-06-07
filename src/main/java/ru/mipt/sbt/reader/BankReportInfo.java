@@ -1,9 +1,10 @@
-package ru.mipt.sbt.old.report;
+package ru.mipt.sbt.reader;
 
 /**
  * Created by Toma on 28.05.2017.
  */
 public class BankReportInfo {
+    private String year;
     private Double totalActives;
     private Double totalPassives;
     private Double pureProfit;
@@ -102,6 +103,15 @@ public class BankReportInfo {
 
     public BankReportInfo setCosts(Double costs) {
         this.costs = costs;
+        return this;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public BankReportInfo setYear(String year) {
+        this.year = year;
         return this;
     }
 }

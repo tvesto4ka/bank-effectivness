@@ -1,4 +1,4 @@
-package ru.mipt.sbt.refactor.reader;
+package ru.mipt.sbt.reader;
 
 import java.io.File;
 

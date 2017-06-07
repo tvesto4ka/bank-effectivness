@@ -1,4 +1,4 @@
-package ru.mipt.sbt.refactor.builder;
+package ru.mipt.sbt.builder;
 
 /**
  * Created by Toma on 31.05.2017.

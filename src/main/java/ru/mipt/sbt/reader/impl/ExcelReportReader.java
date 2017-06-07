@@ -1,10 +1,10 @@
-package ru.mipt.sbt.refactor.reader.impl;
+package ru.mipt.sbt.reader.impl;
 
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import ru.mipt.sbt.refactor.reader.BankReportInfo;
-import ru.mipt.sbt.refactor.reader.ReportReader;
+import ru.mipt.sbt.reader.BankReportInfo;
+import ru.mipt.sbt.reader.ReportReader;
 
 import java.io.File;
 import java.io.FileInputStream;

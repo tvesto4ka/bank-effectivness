@@ -1,10 +1,10 @@
-package ru.mipt.sbt.refactor.writer;
+package ru.mipt.sbt.writer;
 
-import ru.mipt.sbt.refactor.builder.Norms;
-import ru.mipt.sbt.refactor.builder.Value;
-import ru.mipt.sbt.refactor.writer.impl.ConsoleAnalysisResultWriter;
-import ru.mipt.sbt.refactor.writer.impl.ExcelAnalysisResultWriter;
-import ru.mipt.sbt.refactor.writer.impl.InterfaceAnalysisReportWriter;
+import ru.mipt.sbt.builder.Norms;
+import ru.mipt.sbt.builder.Value;
+import ru.mipt.sbt.writer.impl.ConsoleAnalysisResultWriter;
+import ru.mipt.sbt.writer.impl.ExcelAnalysisResultWriter;
+import ru.mipt.sbt.writer.impl.InterfaceAnalysisReportWriter;
 
 import java.io.File;
 import java.util.List;

@@ -1,7 +1,7 @@
-package ru.mipt.sbt.refactor.writer;
+package ru.mipt.sbt.writer;
 
-import ru.mipt.sbt.refactor.builder.Norms;
-import ru.mipt.sbt.refactor.builder.Value;
+import ru.mipt.sbt.builder.Norms;
+import ru.mipt.sbt.builder.Value;
 
 import java.io.File;
 import java.util.List;

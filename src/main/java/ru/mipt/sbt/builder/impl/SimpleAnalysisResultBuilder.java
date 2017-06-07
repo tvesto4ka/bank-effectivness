@@ -1,9 +1,9 @@
-package ru.mipt.sbt.refactor.builder.impl;
+package ru.mipt.sbt.builder.impl;
 
-import ru.mipt.sbt.refactor.builder.AnalysisResultBuilder;
-import ru.mipt.sbt.refactor.builder.Norms;
-import ru.mipt.sbt.refactor.builder.Value;
-import ru.mipt.sbt.refactor.reader.BankReportInfo;
+import ru.mipt.sbt.builder.AnalysisResultBuilder;
+import ru.mipt.sbt.builder.Norms;
+import ru.mipt.sbt.builder.Value;
+import ru.mipt.sbt.reader.BankReportInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;

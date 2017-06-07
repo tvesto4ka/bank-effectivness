@@ -1,6 +1,6 @@
-package ru.mipt.sbt.refactor.reader;
+package ru.mipt.sbt.reader;
 
-import ru.mipt.sbt.refactor.reader.impl.ExcelReportReader;
+import ru.mipt.sbt.reader.impl.ExcelReportReader;
 
 import java.io.File;
 import java.util.LinkedList;

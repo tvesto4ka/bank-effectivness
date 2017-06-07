@@ -1,13 +1,13 @@
-package ru.mipt.sbt.refactor.writer.impl;
+package ru.mipt.sbt.writer.impl;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import ru.mipt.sbt.refactor.builder.Norms;
-import ru.mipt.sbt.refactor.builder.Value;
-import ru.mipt.sbt.refactor.writer.AnalysisResultWriter;
+import ru.mipt.sbt.builder.Norms;
+import ru.mipt.sbt.builder.Value;
+import ru.mipt.sbt.writer.AnalysisResultWriter;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -1,6 +1,6 @@
-package ru.mipt.sbt.refactor.builder;
+package ru.mipt.sbt.builder;
 
-import ru.mipt.sbt.refactor.reader.BankReportInfo;
+import ru.mipt.sbt.reader.BankReportInfo;
 
 import java.util.List;
 import java.util.Map;
