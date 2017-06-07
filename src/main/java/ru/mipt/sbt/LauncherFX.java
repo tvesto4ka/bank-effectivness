@@ -29,10 +29,7 @@ import java.util.Map;
 /**
  * Created by Toma on 28.05.2017.
  */
-public class Main extends Application {
-
-    /*@FXMLViewFlowContext
-    private ViewFlowContext flowContext;*/
+public class LauncherFX extends Application {
 
     private Map<Norms, List<Value>> values;
     private List<BankReportInfo> data;
@@ -167,33 +164,4 @@ public class Main extends Application {
         primaryStage.setFullScreen(true);
         primaryStage.show();
     }
-
-    /*@Override
-    public void start(Stage primaryStage) throws Exception {
-        new Thread(() -> {
-            try {
-                SVGGlyphLoader.loadGlyphsFont(Main.class.getResourceAsStream("/fonts/icomoon.svg"),
-                        "icomoon.svg");
-            } catch (IOException ioExc) {
-                ioExc.printStackTrace();
-            }
-        }).start();
-
-        Flow flow = new Flow(MainConrtoller.class);
-        DefaultFlowContainer container = new DefaultFlowContainer();
-        flowContext = new ViewFlowContext();
-        flowContext.register("Stage", primaryStage);
-        flow.createHandler(flowContext).start(container);
-        JFXDecorator decorator = new JFXDecorator(primaryStage, container.getView());
-        Scene scene = new Scene(decorator, 1300, 600);
-        final ObservableList<String> stylesheets = scene.getStylesheets();
-        stylesheets.addAll(Main.class.getResource("/css/jfoenix-fonts.css").toExternalForm(),
-                Main.class.getResource("/css/jfoenix-design.css").toExternalForm(),
-                Main.class.getResource("/css/jfoenix-main-demo.css").toExternalForm());
-
-        primaryStage.setScene(scene);
-//        primaryStage.setFullScreen(true);
-        primaryStage.show();
-
-    }*/
 }
