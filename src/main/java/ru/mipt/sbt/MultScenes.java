@@ -38,8 +38,8 @@ public class MultScenes extends Application {
     private AnalysisService analysisService = new AnalysisService();
     private File inputFile;
     private File outputDirectory;
-    String resultNorm;
-    String resultNotNorm;
+    private String resultNorm;
+    private String resultNotNorm;
 
     private Scene numberScene;
     private Scene uploadScene;
@@ -49,7 +49,9 @@ public class MultScenes extends Application {
     private Font headerFont = Font.font("Tahoma", FontWeight.NORMAL, 18);
 
     private final FileChooser fileChooser = new FileChooser();
-    final DirectoryChooser directoryChooser = new DirectoryChooser();
+    private final DirectoryChooser directoryChooser = new DirectoryChooser();
+    private final Text reportInterfaceNorm = new Text();
+    private final Text reportInterfaceNotNorm = new Text();
 
     private void createUploadFileScene(Stage primaryStage) {
         final Text welcomeMess = new Text();
@@ -67,9 +69,7 @@ public class MultScenes extends Application {
         nextBtn.setLayoutX(400.0);
         nextBtn.setLayoutY(350.0);
         nextBtn.setDisable(true);
-        nextBtn.setOnAction(event -> {
-            primaryStage.setScene(numberScene);
-        });
+        nextBtn.setOnAction(event -> primaryStage.setScene(numberScene));
         JFXButton uploadFile = new JFXButton();
         uploadFile.setText("Загрузить файл");
         uploadFile.getStyleClass().add("button-raised");
@@ -119,6 +119,12 @@ public class MultScenes extends Application {
         nextBtn.setLayoutY(350.0);
         nextBtn.setDisable(true);
         nextBtn.setOnAction(event -> {
+            resultNorm = writerService.writeNormalResultInInterface(values);
+            resultNotNorm = writerService.writeNotNormalResultInInterface(values);
+            reportInterfaceNorm.setFill(Color.FORESTGREEN);
+            reportInterfaceNorm.setText(resultNorm);
+            reportInterfaceNotNorm.setFill(Color.FIREBRICK);
+            reportInterfaceNotNorm.setText(resultNotNorm);
             primaryStage.setScene(resultScene);
         });
         JFXButton prevBtn = new JFXButton();
@@ -126,9 +132,7 @@ public class MultScenes extends Application {
         prevBtn.getStyleClass().add("button-raised");
         prevBtn.setLayoutX(230.0);
         prevBtn.setLayoutY(350.0);
-        prevBtn.setOnAction(event -> {
-            primaryStage.setScene(uploadScene);
-        });
+        prevBtn.setOnAction(event -> primaryStage.setScene(uploadScene));
         JFXTextField userTextField = new JFXTextField();
         userTextField.setLayoutX(400.0);
         userTextField.setLayoutY(200.0);
@@ -148,7 +152,7 @@ public class MultScenes extends Application {
                     infoMess.setText("В файле нет данных на указанное число дат");
                 }
                 values = analysisService.analyseReport(data);
-                writerService.writeResultInConsole(values);
+                //writerService.writeResultInConsole(values);
                 infoMess.setFill(Color.DODGERBLUE);
                 infoMess.setText("Выбранное количество дат \nуспешно проанализировано");
                 nextBtn.setDisable(false);
@@ -181,40 +185,27 @@ public class MultScenes extends Application {
         nextBtn.getStyleClass().add("button-raised");
         nextBtn.setLayoutX(650.0);
         nextBtn.setLayoutY(350.0);
-        nextBtn.setOnAction(event -> {
-            primaryStage.setScene(uploadScene);
-        });
+        nextBtn.setOnAction(event -> primaryStage.setScene(uploadScene));
         JFXButton prevBtn = new JFXButton();
         prevBtn.setText("Назад");
         prevBtn.getStyleClass().add("button-raised");
         prevBtn.setLayoutX(150.0);
         prevBtn.setLayoutY(350.0);
-        prevBtn.setOnAction(event -> {
-            primaryStage.setScene(numberScene);
-        });
+        prevBtn.setOnAction(event -> primaryStage.setScene(numberScene));
 
-        final Text reportInterfaceNorm = new Text();
         reportInterfaceNorm.setFont(font);
-        reportInterfaceNorm.setLayoutX(80.0);
-        reportInterfaceNorm.setLayoutY(150.0);
-        final Text reportInterfaceNotNorm = new Text();
+        reportInterfaceNorm.setLayoutX(200.0);
+        reportInterfaceNorm.setLayoutY(40.0);
         reportInterfaceNotNorm.setFont(font);
-        reportInterfaceNotNorm.setLayoutX(500.0);
-        reportInterfaceNotNorm.setLayoutY(150.0);
-//        resultNorm = writerService.writeNormalResultInInterface(values);
-//        resultNotNorm = writerService.writeNotNormalResultInInterface(values);
-        reportInterfaceNorm.setFill(Color.FORESTGREEN);
-        reportInterfaceNorm.setText(resultNorm);
-        reportInterfaceNotNorm.setFill(Color.FIREBRICK);
-        reportInterfaceNotNorm.setText(resultNotNorm);
-
+        reportInterfaceNotNorm.setLayoutX(200.0);
+        reportInterfaceNotNorm.setLayoutY(200.0);
 
         final Text reportFile = new Text();
         reportFile.setFont(font);
-        reportFile.setLayoutX(410.0);
+        reportFile.setLayoutX(400.0);
         reportFile.setLayoutY(410.0);
         JFXButton printInFileBtn = new JFXButton();
-        printInFileBtn.setText("Сохранить результаты анализа в файл");
+        printInFileBtn.setText("Сохранить в файл");
         printInFileBtn.setLayoutX(400.0);
         printInFileBtn.setLayoutY(350.0);
         printInFileBtn.getStyleClass().add("button-raised");
@@ -224,7 +215,7 @@ public class MultScenes extends Application {
                 File outputFile = new File(outputDirectory, "результаты анализа.xlsx");
                 writerService.writeResultInFile(values, outputFile);
                 reportFile.setFill(Color.DODGERBLUE);
-                reportFile.setText("Файл " + outputFile.getName() + "\nсохранен");
+                reportFile.setText("Файл '" + outputFile.getName() + "'\nсохранен");
             } else {
                 reportFile.setFill(Color.FIREBRICK);
                 reportFile.setText("Необходимо загрузить файл!");
@@ -255,7 +246,6 @@ public class MultScenes extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-
         createUploadFileScene(primaryStage);
         createDataNumberScene(primaryStage);
         createResultScene(primaryStage);
