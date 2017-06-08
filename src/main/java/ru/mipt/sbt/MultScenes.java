@@ -55,15 +55,15 @@ public class MultScenes extends Application {
     final DirectoryChooser directoryChooser = new DirectoryChooser();
 
     private void createUploadFileScene(Stage primaryStage){
-        final Text uploadFileMess = new Text();
-        uploadFileMess.setFont(headerFont);
-        uploadFileMess.setText("Пожалуйста, выберете файл с финансовым отчетом банка");
-        uploadFileMess.setLayoutX(280);
-        uploadFileMess.setLayoutY(180.0);
-        final Text uploadFileText = new Text();
-        uploadFileText.setFont(font);
-        uploadFileText.setLayoutX(420);
-        uploadFileText.setLayoutY(270);
+        final Text welcomeMess = new Text();
+        welcomeMess.setFont(headerFont);
+        welcomeMess.setText("Пожалуйста, выберете файл с финансовым отчетом банка");
+        welcomeMess.setLayoutX(280);
+        welcomeMess.setLayoutY(180.0);
+        final Text infoMess = new Text();
+        infoMess.setFont(font);
+        infoMess.setLayoutX(420);
+        infoMess.setLayoutY(270);
         JFXButton nextBtn = new JFXButton();
         nextBtn.setText("Далее");
         nextBtn.getStyleClass().add("button-raised");
@@ -81,40 +81,40 @@ public class MultScenes extends Application {
         uploadFile.setOnAction(event -> {
             inputFile = fileChooser.showOpenDialog(primaryStage);
             if (inputFile != null && inputFile.getAbsolutePath().split("\\.")[1].equalsIgnoreCase("xlsx")) {
-                uploadFileText.setFill(Color.DODGERBLUE);
-                uploadFileText.setText("Файл успешно загружен");
+                infoMess.setFill(Color.DODGERBLUE);
+                infoMess.setText("Файл успешно загружен");
                 nextBtn.setDisable(false);
             } else {
-                uploadFileText.setFill(Color.FIREBRICK);
-                uploadFileText.setText("Это не .xlsx файл!");
+                infoMess.setFill(Color.FIREBRICK);
+                infoMess.setText("Это не .xlsx файл!");
             }
         });
-        Pane uploadFilePane = new Pane();
-        uploadFilePane.getChildren().add(uploadFileMess);
-        uploadFilePane.getChildren().add(uploadFile);
-        uploadFilePane.getChildren().add(uploadFileText);
-        uploadFilePane.getChildren().add(nextBtn);
+        Pane mainPane = new Pane();
+        mainPane.getChildren().add(welcomeMess);
+        mainPane.getChildren().add(uploadFile);
+        mainPane.getChildren().add(infoMess);
+        mainPane.getChildren().add(nextBtn);
 
-        StackPane uploadFileScene = new StackPane();
-        uploadFileScene.setStyle("-fx-background-color:WHITE");
+        StackPane stackPane = new StackPane();
+        stackPane.setStyle("-fx-background-color:WHITE");
 
-        uploadFileScene.getChildren().add(uploadFilePane);
-        JFXDecorator decorator = new JFXDecorator(primaryStage, new DefaultFlowContainer(uploadFileScene).getView());
+        stackPane.getChildren().add(mainPane);
+        JFXDecorator decorator = new JFXDecorator(primaryStage, new DefaultFlowContainer(stackPane).getView());
 
         uploadScene = new Scene(decorator, 1000, 500);
         uploadScene.getStylesheets().add(this.getClass().getResource("/jfoenix-components.css").toExternalForm());
     }
 
     private void createDataNumberScene(Stage primaryStage) {
-        final Text numberMess = new Text();
-        numberMess.setFont(headerFont);
-        numberMess.setText("Пожалуйста, введите количество дат для анализа");
-        numberMess.setLayoutX(280);
-        numberMess.setLayoutY(180.0);
-        final Text numberOfYearsText = new Text();
-        numberOfYearsText.setFont(font);
-        numberOfYearsText.setLayoutX(380);
-        numberOfYearsText.setLayoutY(270);
+        final Text welcomeMess = new Text();
+        welcomeMess.setFont(headerFont);
+        welcomeMess.setText("Пожалуйста, введите количество дат для анализа");
+        welcomeMess.setLayoutX(280);
+        welcomeMess.setLayoutY(180.0);
+        final Text infoMess = new Text();
+        infoMess.setFont(font);
+        infoMess.setLayoutX(380);
+        infoMess.setLayoutY(270);
         JFXButton nextBtn = new JFXButton();
         nextBtn.setText("Далее");
         nextBtn.getStyleClass().add("button-raised");
@@ -141,41 +141,45 @@ public class MultScenes extends Application {
                 try {
                     year = Integer.valueOf(userTextField.getText());
                 } catch (RuntimeException e) {
-                    numberOfYearsText.setFill(Color.FIREBRICK);
-                    numberOfYearsText.setText("Введите число!");
+                    infoMess.setFill(Color.FIREBRICK);
+                    infoMess.setText("Введите число!");
                 }
                 try {
                     data = readerService.readFile(inputFile, year);
                 } catch (RuntimeException e) {
-                    numberOfYearsText.setFill(Color.FIREBRICK);
-                    numberOfYearsText.setText("В файле нет данных на указанное число дат");
+                    infoMess.setFill(Color.FIREBRICK);
+                    infoMess.setText("В файле нет данных на указанное число дат");
                 }
                 values = analysisService.analyseReport(data);
                 writerService.writeResultInConsole(values);
-                numberOfYearsText.setFill(Color.DODGERBLUE);
-                numberOfYearsText.setText("Выбранное количество дат \nуспешно проанализировано");
+                infoMess.setFill(Color.DODGERBLUE);
+                infoMess.setText("Выбранное количество дат \nуспешно проанализировано");
                 nextBtn.setDisable(false);
             } else {
-                numberOfYearsText.setFill(Color.FIREBRICK);
-                numberOfYearsText.setText("Необходимо загрузить файл!");
+                infoMess.setFill(Color.FIREBRICK);
+                infoMess.setText("Необходимо загрузить файл!");
             }
         });
 
-        Pane numberPane = new Pane();
-        numberPane.getChildren().add(numberMess);
-        numberPane.getChildren().add(userTextField);
-        numberPane.getChildren().add(numberOfYearsText);
-        numberPane.getChildren().add(nextBtn);
-        numberPane.getChildren().add(prevBtn);
+        Pane mainPane = new Pane();
+        mainPane.getChildren().add(welcomeMess);
+        mainPane.getChildren().add(userTextField);
+        mainPane.getChildren().add(infoMess);
+        mainPane.getChildren().add(nextBtn);
+        mainPane.getChildren().add(prevBtn);
 
-        StackPane numberMainPane = new StackPane();
-        numberMainPane.setStyle("-fx-background-color:WHITE");
+        StackPane stackPane = new StackPane();
+        stackPane.setStyle("-fx-background-color:WHITE");
 
-        numberMainPane.getChildren().add(numberPane);
-        JFXDecorator decorator = new JFXDecorator(primaryStage, new DefaultFlowContainer(numberMainPane).getView());
+        stackPane.getChildren().add(mainPane);
+        JFXDecorator decorator = new JFXDecorator(primaryStage, new DefaultFlowContainer(stackPane).getView());
 
         numberScene = new Scene(decorator, 1000, 500);
         numberScene.getStylesheets().add(this.getClass().getResource("/jfoenix-components.css").toExternalForm());
+    }
+    
+    private void createResultScene(Stage primaryStage) {
+        
     }
 
     public static void main(String[] args) {
@@ -187,6 +191,7 @@ public class MultScenes extends Application {
 
         createUploadFileScene(primaryStage);
         createDataNumberScene(primaryStage);
+        createResultScene(primaryStage);
 
         primaryStage.setScene(uploadScene);
         primaryStage.show();
