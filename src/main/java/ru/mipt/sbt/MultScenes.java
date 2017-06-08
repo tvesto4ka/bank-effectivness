@@ -64,13 +64,13 @@ public class MultScenes extends Application {
         uploadFileText.setFont(font);
         uploadFileText.setLayoutX(420);
         uploadFileText.setLayoutY(270);
-        JFXButton uploadFileNextBtn = new JFXButton();
-        uploadFileNextBtn.setText("Далее");
-        uploadFileNextBtn.getStyleClass().add("button-raised");
-        uploadFileNextBtn.setLayoutX(400.0);
-        uploadFileNextBtn.setLayoutY(350.0);
-        uploadFileNextBtn.setDisable(true);
-        uploadFileNextBtn.setOnAction(event -> {
+        JFXButton nextBtn = new JFXButton();
+        nextBtn.setText("Далее");
+        nextBtn.getStyleClass().add("button-raised");
+        nextBtn.setLayoutX(400.0);
+        nextBtn.setLayoutY(350.0);
+        nextBtn.setDisable(true);
+        nextBtn.setOnAction(event -> {
             primaryStage.setScene(numberScene);
         });
         JFXButton uploadFile = new JFXButton();
@@ -83,7 +83,7 @@ public class MultScenes extends Application {
             if (inputFile != null && inputFile.getAbsolutePath().split("\\.")[1].equalsIgnoreCase("xlsx")) {
                 uploadFileText.setFill(Color.DODGERBLUE);
                 uploadFileText.setText("Файл успешно загружен");
-                uploadFileNextBtn.setDisable(false);
+                nextBtn.setDisable(false);
             } else {
                 uploadFileText.setFill(Color.FIREBRICK);
                 uploadFileText.setText("Это не .xlsx файл!");
@@ -93,7 +93,7 @@ public class MultScenes extends Application {
         uploadFilePane.getChildren().add(uploadFileMess);
         uploadFilePane.getChildren().add(uploadFile);
         uploadFilePane.getChildren().add(uploadFileText);
-        uploadFilePane.getChildren().add(uploadFileNextBtn);
+        uploadFilePane.getChildren().add(nextBtn);
 
         StackPane uploadFileScene = new StackPane();
         uploadFileScene.setStyle("-fx-background-color:WHITE");
@@ -113,21 +113,28 @@ public class MultScenes extends Application {
         numberMess.setLayoutY(180.0);
         final Text numberOfYearsText = new Text();
         numberOfYearsText.setFont(font);
-        numberOfYearsText.setLayoutX(420);
+        numberOfYearsText.setLayoutX(380);
         numberOfYearsText.setLayoutY(270);
-        JFXButton numberNextBtn = new JFXButton();
-        numberNextBtn.setText("Далее");
-        numberNextBtn.getStyleClass().add("button-raised");
-        numberNextBtn.setLayoutX(400.0);
-        numberNextBtn.setLayoutY(350.0);
-        numberNextBtn.setDisable(true);
-        numberNextBtn.setOnAction(event -> {
+        JFXButton nextBtn = new JFXButton();
+        nextBtn.setText("Далее");
+        nextBtn.getStyleClass().add("button-raised");
+        nextBtn.setLayoutX(530.0);
+        nextBtn.setLayoutY(350.0);
+        nextBtn.setDisable(true);
+        nextBtn.setOnAction(event -> {
             primaryStage.setScene(resultScene);
+        });
+        JFXButton prevBtn = new JFXButton();
+        prevBtn.setText("Назад");
+        prevBtn.getStyleClass().add("button-raised");
+        prevBtn.setLayoutX(230.0);
+        prevBtn.setLayoutY(350.0);
+        prevBtn.setOnAction(event -> {
+            primaryStage.setScene(uploadScene);
         });
         JFXTextField userTextField = new JFXTextField();
         userTextField.setLayoutX(400.0);
         userTextField.setLayoutY(200.0);
-//        userTextField.getStyleClass().add("button-raised");
         userTextField.setOnAction(event -> {
             if (inputFile != null) {
                 Integer year = null;
@@ -147,7 +154,7 @@ public class MultScenes extends Application {
                 writerService.writeResultInConsole(values);
                 numberOfYearsText.setFill(Color.DODGERBLUE);
                 numberOfYearsText.setText("Выбранное количество дат \nуспешно проанализировано");
-                numberNextBtn.setDisable(false);
+                nextBtn.setDisable(false);
             } else {
                 numberOfYearsText.setFill(Color.FIREBRICK);
                 numberOfYearsText.setText("Необходимо загрузить файл!");
@@ -158,7 +165,8 @@ public class MultScenes extends Application {
         numberPane.getChildren().add(numberMess);
         numberPane.getChildren().add(userTextField);
         numberPane.getChildren().add(numberOfYearsText);
-        numberPane.getChildren().add(numberNextBtn);
+        numberPane.getChildren().add(nextBtn);
+        numberPane.getChildren().add(prevBtn);
 
         StackPane numberMainPane = new StackPane();
         numberMainPane.setStyle("-fx-background-color:WHITE");
