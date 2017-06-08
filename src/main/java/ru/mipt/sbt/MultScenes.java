@@ -179,7 +179,102 @@ public class MultScenes extends Application {
     }
     
     private void createResultScene(Stage primaryStage) {
-        
+        final Text welcomeMess = new Text();
+        welcomeMess.setFont(headerFont);
+        welcomeMess.setText("Пожалуйста, выберете способ получения результатов анализа");
+        welcomeMess.setLayoutX(220);
+        welcomeMess.setLayoutY(50.0);
+        final Text infoMess = new Text();
+        infoMess.setFont(font);
+        infoMess.setLayoutX(380);
+        infoMess.setLayoutY(270);
+        JFXButton nextBtn = new JFXButton();
+        nextBtn.setText("Начать сначала");
+        nextBtn.getStyleClass().add("button-raised");
+        nextBtn.setLayoutX(530.0);
+        nextBtn.setLayoutY(350.0);
+        nextBtn.setOnAction(event -> {
+            primaryStage.setScene(uploadScene);
+        });
+        JFXButton prevBtn = new JFXButton();
+        prevBtn.setText("Назад");
+        prevBtn.getStyleClass().add("button-raised");
+        prevBtn.setLayoutX(230.0);
+        prevBtn.setLayoutY(350.0);
+        prevBtn.setOnAction(event -> {
+            primaryStage.setScene(numberScene);
+        });
+
+        final Text reportInterfaceNorm = new Text();
+        reportInterfaceNorm.setFont(font);
+        reportInterfaceNorm.setLayoutX(530.0);
+        reportInterfaceNorm.setLayoutY(120.0);
+        final Text reportInterfaceNotNorm = new Text();
+        reportInterfaceNotNorm.setFont(font);
+        reportInterfaceNotNorm.setLayoutX(530.0);
+        reportInterfaceNotNorm.setLayoutY(200.0);
+        JFXButton printInConsoleBtn = new JFXButton();
+        printInConsoleBtn.setText("Показать результаты анализа на экране");
+        printInConsoleBtn.setLayoutX(530.0);
+        printInConsoleBtn.setLayoutY(70.0);
+        printInConsoleBtn.getStyleClass().add("button-raised");
+        printInConsoleBtn.setOnAction(event -> {
+            if (values != null) {
+                String resultNorm = writerService.writeNormalResultInInterface(values);
+                String resultNotNorm = writerService.writeNotNormalResultInInterface(values);
+                reportInterfaceNorm.setFill(Color.FORESTGREEN);
+                reportInterfaceNorm.setText(resultNorm);
+                reportInterfaceNotNorm.setFill(Color.FIREBRICK);
+                reportInterfaceNotNorm.setText(resultNotNorm);
+            } else {
+                reportInterfaceNorm.setFill(Color.FIREBRICK);
+                reportInterfaceNorm.setText("Необходимо загрузить файл!");
+            }
+        });
+
+        final Text reportFile = new Text();
+        reportFile.setFont(font);
+        reportFile.setLayoutX(230.0);
+        reportFile.setLayoutY(150.0);
+        JFXButton printInFileBtn = new JFXButton();
+        printInFileBtn.setText("Сохранить результаты анализа в файл");
+        printInFileBtn.setLayoutX(230.0);
+        printInFileBtn.setLayoutY(70.0);
+        printInFileBtn.getStyleClass().add("button-raised");
+        printInFileBtn.setOnAction(event -> {
+            if (values != null) {
+                outputDirectory = directoryChooser.showDialog(primaryStage);
+                File outputFile = new File(outputDirectory, "результаты анализа.xlsx");
+                writerService.writeResultInFile(values, outputFile);
+                reportFile.setFill(Color.DODGERBLUE);
+                reportFile.setText("Анализ показателей стабильности\nсохранен в файле\n"
+                        + outputFile.getName()
+                );
+            } else {
+                reportFile.setFill(Color.FIREBRICK);
+                reportFile.setText("Необходимо загрузить файл!");
+            }
+        });
+
+        Pane mainPane = new Pane();
+        mainPane.getChildren().add(welcomeMess);
+        mainPane.getChildren().add(printInConsoleBtn);
+        mainPane.getChildren().add(reportInterfaceNorm);
+        mainPane.getChildren().add(reportInterfaceNotNorm);
+        mainPane.getChildren().add(printInFileBtn);
+        mainPane.getChildren().add(reportFile);
+        mainPane.getChildren().add(infoMess);
+        mainPane.getChildren().add(nextBtn);
+        mainPane.getChildren().add(prevBtn);
+
+        StackPane stackPane = new StackPane();
+        stackPane.setStyle("-fx-background-color:WHITE");
+
+        stackPane.getChildren().add(mainPane);
+        JFXDecorator decorator = new JFXDecorator(primaryStage, new DefaultFlowContainer(stackPane).getView());
+
+        resultScene = new Scene(decorator, 1000, 500);
+        resultScene.getStylesheets().add(this.getClass().getResource("/jfoenix-components.css").toExternalForm());
     }
 
     public static void main(String[] args) {
