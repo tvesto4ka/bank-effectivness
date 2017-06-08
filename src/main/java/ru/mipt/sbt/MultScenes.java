@@ -5,12 +5,7 @@ import com.jfoenix.controls.JFXDecorator;
 import com.jfoenix.controls.JFXTextField;
 import io.datafx.controller.flow.container.DefaultFlowContainer;
 import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -43,6 +38,8 @@ public class MultScenes extends Application {
     private AnalysisService analysisService = new AnalysisService();
     private File inputFile;
     private File outputDirectory;
+    String resultNorm;
+    String resultNotNorm;
 
     private Scene numberScene;
     private Scene uploadScene;
@@ -54,7 +51,7 @@ public class MultScenes extends Application {
     private final FileChooser fileChooser = new FileChooser();
     final DirectoryChooser directoryChooser = new DirectoryChooser();
 
-    private void createUploadFileScene(Stage primaryStage){
+    private void createUploadFileScene(Stage primaryStage) {
         final Text welcomeMess = new Text();
         welcomeMess.setFont(headerFont);
         welcomeMess.setText("Пожалуйста, выберете файл с финансовым отчетом банка");
@@ -116,7 +113,7 @@ public class MultScenes extends Application {
         infoMess.setLayoutX(380);
         infoMess.setLayoutY(270);
         JFXButton nextBtn = new JFXButton();
-        nextBtn.setText("Далее");
+        nextBtn.setText("Посмотреть результаты");
         nextBtn.getStyleClass().add("button-raised");
         nextBtn.setLayoutX(530.0);
         nextBtn.setLayoutY(350.0);
@@ -177,21 +174,12 @@ public class MultScenes extends Application {
         numberScene = new Scene(decorator, 1000, 500);
         numberScene.getStylesheets().add(this.getClass().getResource("/jfoenix-components.css").toExternalForm());
     }
-    
+
     private void createResultScene(Stage primaryStage) {
-        final Text welcomeMess = new Text();
-        welcomeMess.setFont(headerFont);
-        welcomeMess.setText("Пожалуйста, выберете способ получения результатов анализа");
-        welcomeMess.setLayoutX(220);
-        welcomeMess.setLayoutY(50.0);
-        final Text infoMess = new Text();
-        infoMess.setFont(font);
-        infoMess.setLayoutX(380);
-        infoMess.setLayoutY(270);
         JFXButton nextBtn = new JFXButton();
         nextBtn.setText("Начать сначала");
         nextBtn.getStyleClass().add("button-raised");
-        nextBtn.setLayoutX(530.0);
+        nextBtn.setLayoutX(650.0);
         nextBtn.setLayoutY(350.0);
         nextBtn.setOnAction(event -> {
             primaryStage.setScene(uploadScene);
@@ -199,7 +187,7 @@ public class MultScenes extends Application {
         JFXButton prevBtn = new JFXButton();
         prevBtn.setText("Назад");
         prevBtn.getStyleClass().add("button-raised");
-        prevBtn.setLayoutX(230.0);
+        prevBtn.setLayoutX(150.0);
         prevBtn.setLayoutY(350.0);
         prevBtn.setOnAction(event -> {
             primaryStage.setScene(numberScene);
@@ -207,39 +195,28 @@ public class MultScenes extends Application {
 
         final Text reportInterfaceNorm = new Text();
         reportInterfaceNorm.setFont(font);
-        reportInterfaceNorm.setLayoutX(530.0);
-        reportInterfaceNorm.setLayoutY(120.0);
+        reportInterfaceNorm.setLayoutX(80.0);
+        reportInterfaceNorm.setLayoutY(150.0);
         final Text reportInterfaceNotNorm = new Text();
         reportInterfaceNotNorm.setFont(font);
-        reportInterfaceNotNorm.setLayoutX(530.0);
-        reportInterfaceNotNorm.setLayoutY(200.0);
-        JFXButton printInConsoleBtn = new JFXButton();
-        printInConsoleBtn.setText("Показать результаты анализа на экране");
-        printInConsoleBtn.setLayoutX(530.0);
-        printInConsoleBtn.setLayoutY(70.0);
-        printInConsoleBtn.getStyleClass().add("button-raised");
-        printInConsoleBtn.setOnAction(event -> {
-            if (values != null) {
-                String resultNorm = writerService.writeNormalResultInInterface(values);
-                String resultNotNorm = writerService.writeNotNormalResultInInterface(values);
-                reportInterfaceNorm.setFill(Color.FORESTGREEN);
-                reportInterfaceNorm.setText(resultNorm);
-                reportInterfaceNotNorm.setFill(Color.FIREBRICK);
-                reportInterfaceNotNorm.setText(resultNotNorm);
-            } else {
-                reportInterfaceNorm.setFill(Color.FIREBRICK);
-                reportInterfaceNorm.setText("Необходимо загрузить файл!");
-            }
-        });
+        reportInterfaceNotNorm.setLayoutX(500.0);
+        reportInterfaceNotNorm.setLayoutY(150.0);
+//        resultNorm = writerService.writeNormalResultInInterface(values);
+//        resultNotNorm = writerService.writeNotNormalResultInInterface(values);
+        reportInterfaceNorm.setFill(Color.FORESTGREEN);
+        reportInterfaceNorm.setText(resultNorm);
+        reportInterfaceNotNorm.setFill(Color.FIREBRICK);
+        reportInterfaceNotNorm.setText(resultNotNorm);
+
 
         final Text reportFile = new Text();
         reportFile.setFont(font);
-        reportFile.setLayoutX(230.0);
-        reportFile.setLayoutY(150.0);
+        reportFile.setLayoutX(410.0);
+        reportFile.setLayoutY(410.0);
         JFXButton printInFileBtn = new JFXButton();
         printInFileBtn.setText("Сохранить результаты анализа в файл");
-        printInFileBtn.setLayoutX(230.0);
-        printInFileBtn.setLayoutY(70.0);
+        printInFileBtn.setLayoutX(400.0);
+        printInFileBtn.setLayoutY(350.0);
         printInFileBtn.getStyleClass().add("button-raised");
         printInFileBtn.setOnAction(event -> {
             if (values != null) {
@@ -247,9 +224,7 @@ public class MultScenes extends Application {
                 File outputFile = new File(outputDirectory, "результаты анализа.xlsx");
                 writerService.writeResultInFile(values, outputFile);
                 reportFile.setFill(Color.DODGERBLUE);
-                reportFile.setText("Анализ показателей стабильности\nсохранен в файле\n"
-                        + outputFile.getName()
-                );
+                reportFile.setText("Файл " + outputFile.getName() + "\nсохранен");
             } else {
                 reportFile.setFill(Color.FIREBRICK);
                 reportFile.setText("Необходимо загрузить файл!");
@@ -257,13 +232,10 @@ public class MultScenes extends Application {
         });
 
         Pane mainPane = new Pane();
-        mainPane.getChildren().add(welcomeMess);
-        mainPane.getChildren().add(printInConsoleBtn);
         mainPane.getChildren().add(reportInterfaceNorm);
         mainPane.getChildren().add(reportInterfaceNotNorm);
         mainPane.getChildren().add(printInFileBtn);
         mainPane.getChildren().add(reportFile);
-        mainPane.getChildren().add(infoMess);
         mainPane.getChildren().add(nextBtn);
         mainPane.getChildren().add(prevBtn);
 
