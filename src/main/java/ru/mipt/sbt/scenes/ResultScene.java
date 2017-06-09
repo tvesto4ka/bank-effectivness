@@ -4,11 +4,11 @@ import com.jfoenix.controls.JFXButton;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import ru.mipt.sbt.utils.Constants;
+import ru.mipt.sbt.utils.ScenesUtils;
 import ru.mipt.sbt.writer.WriterService;
 
 import java.io.File;
@@ -17,17 +17,15 @@ import java.io.File;
  * Created by Toma on 09.06.2017.
  */
 public class ResultScene {
-    private Font font = Font.font("Tahoma", FontWeight.NORMAL, 14);
-
-    private Scene resultScene;
-    private UploadFileScene nextScene;
-
-    private final Text reportInterfaceNorm = new Text();
-    private final Text reportInterfaceNotNorm = new Text();
+    private Text reportInterfaceNorm;
+    private Text reportInterfaceNotNorm;
 
     private final DirectoryChooser directoryChooser = new DirectoryChooser();
     private WriterService writerService = new WriterService();
     private File outputDirectory;
+
+    private Scene resultScene;
+    private UploadFileScene nextScene;
 
     public Scene createResultScene(Stage primaryStage) {
         JFXButton nextBtn = ScenesUtils.createButton("Начать сначала", 650.0, 350.0);
@@ -35,14 +33,10 @@ public class ResultScene {
             primaryStage.setScene(nextScene.getScene());
         });
 
-        reportInterfaceNorm.setFont(font);
-        reportInterfaceNorm.setLayoutX(200.0);
-        reportInterfaceNorm.setLayoutY(40.0);
-        reportInterfaceNotNorm.setFont(font);
-        reportInterfaceNotNorm.setLayoutX(200.0);
-        reportInterfaceNotNorm.setLayoutY(200.0);
+        reportInterfaceNorm = ScenesUtils.createText(null, 200, 40, Constants.FONT);
+        reportInterfaceNotNorm = ScenesUtils.createText(null, 200, 200, Constants.FONT);
 
-        final Text reportFile = ScenesUtils.createText(null, 400, 410, font);
+        final Text reportFile = ScenesUtils.createText(null, 400, 410, Constants.FONT);
         JFXButton printInFileBtn = ScenesUtils.createButton("Сохранить в файл", 400.0, 350.0);
         printInFileBtn.setOnAction(event -> {
             if (NumberScene.values != null) {

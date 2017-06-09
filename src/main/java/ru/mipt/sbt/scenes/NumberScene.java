@@ -5,8 +5,6 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ru.mipt.sbt.builder.AnalysisService;
@@ -14,6 +12,8 @@ import ru.mipt.sbt.builder.Norms;
 import ru.mipt.sbt.builder.Value;
 import ru.mipt.sbt.reader.BankReportInfo;
 import ru.mipt.sbt.reader.ReaderService;
+import ru.mipt.sbt.utils.Constants;
+import ru.mipt.sbt.utils.ScenesUtils;
 import ru.mipt.sbt.writer.WriterService;
 
 import java.util.List;
@@ -23,9 +23,6 @@ import java.util.Map;
  * Created by Toma on 09.06.2017.
  */
 public class NumberScene {
-    private Font font = Font.font("Tahoma", FontWeight.NORMAL, 14);
-    private Font headerFont = Font.font("Tahoma", FontWeight.NORMAL, 18);
-
     public static Map<Norms, List<Value>> values;
     private List<BankReportInfo> data;
     private WriterService writerService = new WriterService();
@@ -37,8 +34,8 @@ public class NumberScene {
     private UploadFileScene prevScene;
 
     public NumberScene createDataNumberScene(Stage primaryStage) {
-        final Text welcomeMess = ScenesUtils.createText("Пожалуйста, введите количество дат для анализа", 280, 180, headerFont);
-        final Text infoMess = ScenesUtils.createText(null, 380, 270, font);
+        final Text welcomeMess = ScenesUtils.createText("Пожалуйста, введите количество дат для анализа", 280, 180, Constants.HEADER_FONT);
+        final Text infoMess = ScenesUtils.createText(null, 380, 270, Constants.FONT);
         JFXButton nextBtn = ScenesUtils.createButton("Посмотреть результаты", 530.0, 350.0);
         nextBtn.setDisable(true);
         nextBtn.setOnAction(event -> {
@@ -52,6 +49,8 @@ public class NumberScene {
         });
         JFXButton prevBtn = ScenesUtils.createButton("Начать сначала", 230.0, 350.0);
         prevBtn.setOnAction(event -> {
+            //TODO
+            prevScene.recreateScene(primaryStage);
             primaryStage.setScene(prevScene.getScene());
         });
         JFXTextField userTextField = new JFXTextField();

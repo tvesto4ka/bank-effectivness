@@ -1,4 +1,4 @@
-package ru.mipt.sbt.scenes;
+package ru.mipt.sbt.utils;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDecorator;
