@@ -30,6 +30,7 @@ public class ResultScene {
     public Scene createResultScene(Stage primaryStage) {
         JFXButton nextBtn = ScenesUtils.createButton("Начать сначала", 650.0, 350.0);
         nextBtn.setOnAction(event -> {
+            nextScene.recreateScene();
             primaryStage.setScene(nextScene.getScene());
         });
 

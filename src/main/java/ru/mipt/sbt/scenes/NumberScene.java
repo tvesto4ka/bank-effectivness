@@ -49,8 +49,7 @@ public class NumberScene {
         });
         JFXButton prevBtn = ScenesUtils.createButton("Начать сначала", 230.0, 350.0);
         prevBtn.setOnAction(event -> {
-            //TODO
-            prevScene.recreateScene(primaryStage);
+            prevScene.recreateScene();
             primaryStage.setScene(prevScene.getScene());
         });
         JFXTextField userTextField = new JFXTextField();
