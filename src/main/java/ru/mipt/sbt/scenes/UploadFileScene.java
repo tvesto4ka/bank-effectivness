@@ -17,20 +17,24 @@ import java.io.File;
  * Created by Toma on 09.06.2017.
  */
 public class UploadFileScene {
-    public static File inputFile;
-    private final FileChooser fileChooser = new FileChooser();
-    private ReaderService readerService = new ReaderService();
-    private Text infoMess;
 
+    private File inputFile;
+    private Text infoMess;
     private Scene uploadScene;
     private NumberScene nextScene;
+    private JFXButton nextBtn;
 
-    public Scene createUploadFileScene(Stage primaryStage) {
+    public UploadFileScene(Stage primaryStage) {
+        ReaderService readerService = new ReaderService();
+        FileChooser fileChooser = new FileChooser();
         final Text welcomeMess = ScenesUtils.createText("Пожалуйста, выберете файл с финансовым отчетом банка", 280, 180, Constants.HEADER_FONT);
         infoMess = ScenesUtils.createText(null, 420, 270, Constants.FONT);
-        JFXButton nextBtn = ScenesUtils.createButton("Далее", 400.0, 350.0);
+        nextBtn = ScenesUtils.createButton("Далее", 400.0, 350.0);
         nextBtn.setDisable(true);
-        nextBtn.setOnAction(event -> primaryStage.setScene(nextScene.getScene()));
+        nextBtn.setOnAction(event -> {
+            nextScene.recreateScene();
+            primaryStage.setScene(nextScene.getScene());
+        });
         JFXButton uploadFile = ScenesUtils.createButton("Загрузить файл", 400.0, 200.0);
         uploadFile.setOnAction(event -> {
             inputFile = fileChooser.showOpenDialog(primaryStage);
@@ -56,8 +60,6 @@ public class UploadFileScene {
         mainPane.getChildren().add(nextBtn);
 
         uploadScene = ScenesUtils.createScene(mainPane, primaryStage);
-
-        return uploadScene;
     }
 
     public Scene getScene() {
@@ -71,5 +73,10 @@ public class UploadFileScene {
     public void recreateScene() {
         inputFile = null;
         infoMess.setText(null);
+        nextBtn.setDisable(true);
+    }
+
+    public File getInputFile() {
+        return inputFile;
     }
 }

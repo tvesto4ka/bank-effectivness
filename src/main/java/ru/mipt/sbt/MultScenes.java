@@ -10,24 +10,22 @@ import ru.mipt.sbt.scenes.UploadFileScene;
  * Created by Toma on 28.05.2017.
  */
 public class MultScenes extends Application {
+
     public static void main(String[] args) {
         launch((String) null);
     }
 
     @Override
     public void start(Stage primaryStage) {
-        UploadFileScene uploadScene = new UploadFileScene();
-        NumberScene numberScene = new NumberScene();
-        ResultScene resultScene = new ResultScene();
+        UploadFileScene uploadScene = new UploadFileScene(primaryStage);
+        NumberScene numberScene = new NumberScene(primaryStage);
+        ResultScene resultScene = new ResultScene(primaryStage);
 
         uploadScene.setNextScene(numberScene);
-        numberScene.setNextScene(resultScene);
         numberScene.setPrevScene(uploadScene);
+        numberScene.setNextScene(resultScene);
+        resultScene.setPreviousScene(numberScene);
         resultScene.setNextScene(uploadScene);
-
-        uploadScene.createUploadFileScene(primaryStage);
-        numberScene.createDataNumberScene(primaryStage);
-        resultScene.createResultScene(primaryStage);
 
         primaryStage.setScene(uploadScene.getScene());
         primaryStage.show();

@@ -7,11 +7,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import ru.mipt.sbt.builder.Norms;
+import ru.mipt.sbt.builder.Value;
 import ru.mipt.sbt.utils.Constants;
 import ru.mipt.sbt.utils.ScenesUtils;
 import ru.mipt.sbt.writer.WriterService;
 
 import java.io.File;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Toma on 09.06.2017.
@@ -26,8 +30,9 @@ public class ResultScene {
 
     private Scene resultScene;
     private UploadFileScene nextScene;
+    private NumberScene numberScene;
 
-    public Scene createResultScene(Stage primaryStage) {
+    public ResultScene(Stage primaryStage) {
         JFXButton nextBtn = ScenesUtils.createButton("Начать сначала", 650.0, 350.0);
         nextBtn.setOnAction(event -> {
             nextScene.recreateScene();
@@ -40,10 +45,11 @@ public class ResultScene {
         final Text reportFile = ScenesUtils.createText(null, 400, 410, Constants.FONT);
         JFXButton printInFileBtn = ScenesUtils.createButton("Сохранить в файл", 400.0, 350.0);
         printInFileBtn.setOnAction(event -> {
-            if (NumberScene.values != null) {
+            Map<Norms, List<Value>> values = numberScene.getValues();
+            if (values != null) {
                 outputDirectory = directoryChooser.showDialog(primaryStage);
                 File outputFile = new File(outputDirectory, "результаты анализа.xlsx");
-                writerService.writeResultInFile(NumberScene.values, outputFile);
+                writerService.writeResultInFile(values, outputFile);
                 reportFile.setFill(Color.DODGERBLUE);
                 reportFile.setText("Файл '" + outputFile.getName() + "'\nсохранен");
             } else {
@@ -60,7 +66,6 @@ public class ResultScene {
         mainPane.getChildren().add(nextBtn);
 
         resultScene = ScenesUtils.createScene(mainPane, primaryStage);
-        return resultScene;
     }
 
     public Text getReportInterfaceNorm() {
@@ -73,6 +78,10 @@ public class ResultScene {
 
     public Scene getScene() {
         return resultScene;
+    }
+
+    public void setPreviousScene(NumberScene numberScene) {
+        this.numberScene = numberScene;
     }
 
     public void setNextScene(UploadFileScene nextScene) {
