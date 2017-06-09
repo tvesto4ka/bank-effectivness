@@ -73,15 +73,16 @@ public class MultScenes extends Application {
         return text;
     }
 
-    private void createScene(Pane mainPane, Stage primaryStage) {
+    private Scene createScene(Pane mainPane, Stage primaryStage) {
         StackPane stackPane = new StackPane();
         stackPane.setStyle("-fx-background-color:WHITE");
 
         stackPane.getChildren().add(mainPane);
         JFXDecorator decorator = new JFXDecorator(primaryStage, new DefaultFlowContainer(stackPane).getView());
 
-        uploadScene = new Scene(decorator, 1000, 500);
-        uploadScene.getStylesheets().add(STYLE);
+        Scene scene = new Scene(decorator, 1000, 500);
+        scene.getStylesheets().add(STYLE);
+        return scene;
     }
 
     private void createUploadFileScene(Stage primaryStage) {
@@ -114,16 +115,7 @@ public class MultScenes extends Application {
         mainPane.getChildren().add(infoMess);
         mainPane.getChildren().add(nextBtn);
 
-        //createScene(mainPane, primaryStage);
-
-        StackPane stackPane = new StackPane();
-        stackPane.setStyle("-fx-background-color:WHITE");
-
-        stackPane.getChildren().add(mainPane);
-        JFXDecorator decorator = new JFXDecorator(primaryStage, new DefaultFlowContainer(stackPane).getView());
-
-        uploadScene = new Scene(decorator, 1000, 500);
-        uploadScene.getStylesheets().add(STYLE);
+        uploadScene = createScene(mainPane, primaryStage);
     }
 
     private void createDataNumberScene(Stage primaryStage) {
@@ -150,7 +142,7 @@ public class MultScenes extends Application {
         userTextField.setLayoutY(200.0);
         userTextField.setOnAction(event -> {
             if (inputFile != null) {
-                Integer year = null;
+                Integer year;
                 try {
                     year = Integer.valueOf(userTextField.getText());
                     try {
@@ -181,14 +173,7 @@ public class MultScenes extends Application {
         mainPane.getChildren().add(nextBtn);
         mainPane.getChildren().add(prevBtn);
 
-        StackPane stackPane = new StackPane();
-        stackPane.setStyle("-fx-background-color:WHITE");
-
-        stackPane.getChildren().add(mainPane);
-        JFXDecorator decorator = new JFXDecorator(primaryStage, new DefaultFlowContainer(stackPane).getView());
-
-        numberScene = new Scene(decorator, 1000, 500);
-        numberScene.getStylesheets().add(STYLE);
+        numberScene = createScene(mainPane, primaryStage);
     }
 
     private void createResultScene(Stage primaryStage) {
@@ -227,14 +212,7 @@ public class MultScenes extends Application {
         mainPane.getChildren().add(reportFile);
         mainPane.getChildren().add(nextBtn);
 
-        StackPane stackPane = new StackPane();
-        stackPane.setStyle("-fx-background-color:WHITE");
-
-        stackPane.getChildren().add(mainPane);
-        JFXDecorator decorator = new JFXDecorator(primaryStage, new DefaultFlowContainer(stackPane).getView());
-
-        resultScene = new Scene(decorator, 1000, 500);
-        resultScene.getStylesheets().add(STYLE);
+        resultScene = createScene(mainPane, primaryStage);
     }
 
     public static void main(String[] args) {
