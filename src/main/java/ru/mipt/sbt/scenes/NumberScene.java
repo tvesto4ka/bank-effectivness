@@ -31,6 +31,7 @@ public class NumberScene {
     private UploadFileScene prevScene;
     private JFXButton nextBtn;
     private Text infoMess;
+    private JFXTextField userTextField;
 
     public NumberScene(Stage primaryStage) {
         WriterService writerService = new WriterService();
@@ -47,6 +48,7 @@ public class NumberScene {
             nextScene.getReportInterfaceNorm().setText(resultNorm);
             nextScene.getReportInterfaceNotNorm().setFill(Color.FIREBRICK);
             nextScene.getReportInterfaceNotNorm().setText(resultNotNorm);
+            nextScene.recreateScene();
             primaryStage.setScene(nextScene.getScene());
         });
         JFXButton prevBtn = ScenesUtils.createButton("Начать сначала", 230.0, 350.0);
@@ -54,35 +56,38 @@ public class NumberScene {
             prevScene.recreateScene();
             primaryStage.setScene(prevScene.getScene());
         });
-        JFXTextField userTextField = new JFXTextField();
-        userTextField.setLayoutX(400.0);
-        userTextField.setLayoutY(200.0);
-        userTextField.setOnAction(event -> {
+
+        JFXButton analyse = ScenesUtils.createButton("Проанализировать", 600, 200);
+        analyse.setOnAction(event -> {
             File inputFile = prevScene.getInputFile();
-            if (inputFile != null) {
-                Integer year;
+            Integer year;
+            try {
+                year = Integer.valueOf(userTextField.getText());
                 try {
-                    year = Integer.valueOf(userTextField.getText());
-                    try {
+                    if (year.equals(0)) {
+                        infoMess.setFill(Color.FIREBRICK);
+                        infoMess.setText("Введите положительное число!");
+                    } else {
                         List<BankReportInfo> data = readerService.readFile(inputFile, year);
                         values = analysisService.analyseReport(data);
                         //writerService.writeResultInConsole(values);
                         infoMess.setFill(Color.DODGERBLUE);
                         infoMess.setText("Выбранное количество дат \nуспешно проанализировано");
                         nextBtn.setDisable(false);
-                    } catch (RuntimeException e) {
-                        infoMess.setFill(Color.FIREBRICK);
-                        infoMess.setText("В файле нет данных на указанное число дат");
                     }
                 } catch (RuntimeException e) {
                     infoMess.setFill(Color.FIREBRICK);
-                    infoMess.setText("Введите число!");
+                    infoMess.setText("В файле нет данных на указанное число дат");
                 }
-            } else {
+            } catch (RuntimeException e) {
                 infoMess.setFill(Color.FIREBRICK);
-                infoMess.setText("Необходимо загрузить файл!");
+                infoMess.setText("Введите число!");
             }
         });
+
+        userTextField = new JFXTextField();
+        userTextField.setLayoutX(400.0);
+        userTextField.setLayoutY(200.0);
 
         Pane mainPane = new Pane();
         mainPane.getChildren().add(welcomeMess);
@@ -90,6 +95,7 @@ public class NumberScene {
         mainPane.getChildren().add(infoMess);
         mainPane.getChildren().add(nextBtn);
         mainPane.getChildren().add(prevBtn);
+        mainPane.getChildren().add(analyse);
 
         numberScene = ScenesUtils.createScene(mainPane, primaryStage);
     }
@@ -114,5 +120,6 @@ public class NumberScene {
         nextBtn.setDisable(true);
         infoMess.setText(null);
         values = null;
+        userTextField.setText(null);
     }
 }
