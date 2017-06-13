@@ -46,6 +46,12 @@ public class ResultScene {
             primaryStage.setScene(nextScene.getScene());
         });
 
+        JFXButton prevBtn = ScenesUtils.createButton("Выбрать другие даты", 150.0, 350.0);
+        prevBtn.setOnAction(event -> {
+            numberScene.recreateScene();
+            primaryStage.setScene(numberScene.getScene());
+        });
+
         reportInterfaceNorm = ScenesUtils.createText(null, 200, 40, Constants.FONT);
         reportInterfaceNotNorm = ScenesUtils.createText(null, 200, 200, Constants.FONT);
 
@@ -81,6 +87,7 @@ public class ResultScene {
         mainPane.getChildren().add(printInFileBtn);
         mainPane.getChildren().add(reportFile);
         mainPane.getChildren().add(nextBtn);
+        mainPane.getChildren().add(prevBtn);
 
         resultScene = ScenesUtils.createScene(mainPane, primaryStage);
     }
