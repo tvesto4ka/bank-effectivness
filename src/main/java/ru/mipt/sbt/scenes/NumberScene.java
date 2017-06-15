@@ -65,6 +65,7 @@ public class NumberScene {
                 year = Integer.valueOf(userTextField.getText());
                 try {
                     if (year <= 0) {
+                        nextBtn.setDisable(true);
                         infoMess.setFill(Color.FIREBRICK);
                         infoMess.setText("Введите положительное число!");
                     } else {
@@ -76,10 +77,12 @@ public class NumberScene {
                         nextBtn.setDisable(false);
                     }
                 } catch (RuntimeException e) {
+                    nextBtn.setDisable(true);
                     infoMess.setFill(Color.FIREBRICK);
                     infoMess.setText("В файле нет данных на указанное число дат");
                 }
             } catch (RuntimeException e) {
+                nextBtn.setDisable(true);
                 infoMess.setFill(Color.FIREBRICK);
                 infoMess.setText("Введите число!");
             }

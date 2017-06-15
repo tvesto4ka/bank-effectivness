@@ -38,19 +38,25 @@ public class UploadFileScene {
         JFXButton uploadFile = ScenesUtils.createButton("Загрузить файл", 400.0, 200.0);
         uploadFile.setOnAction(event -> {
             inputFile = fileChooser.showOpenDialog(primaryStage);
-            if (inputFile != null && inputFile.getAbsolutePath().split("\\.")[1].equalsIgnoreCase("xlsx")) {
-                try {
-                    readerService.readFile(inputFile, 1);
-                    infoMess.setFill(Color.DODGERBLUE);
-                    infoMess.setText("Файл успешно загружен");
-                    nextBtn.setDisable(false);
-                } catch (RuntimeException e) {
+            if (inputFile != null) {
+                String fileType = inputFile.getAbsolutePath().split("\\.")[1];
+                if (fileType.equalsIgnoreCase("xlsx") || fileType.equalsIgnoreCase("xls")) {
+                    try {
+                        readerService.readFile(inputFile, 1);
+                        infoMess.setFill(Color.DODGERBLUE);
+                        infoMess.setText("Файл успешно загружен");
+                        nextBtn.setDisable(false);
+                    } catch (RuntimeException e) {
+                        infoMess.setFill(Color.FIREBRICK);
+                        infoMess.setText("Файл не соответствует формату!");
+                    }
+                } else {
                     infoMess.setFill(Color.FIREBRICK);
-                    infoMess.setText("Файл не соответствует формату!");
+                    infoMess.setText("Это не Excel файл!");
                 }
             } else {
                 infoMess.setFill(Color.FIREBRICK);
-                infoMess.setText("Это не .xlsx файл!");
+                infoMess.setText("Загрузите файл");
             }
         });
         Pane mainPane = new Pane();

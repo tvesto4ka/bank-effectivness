@@ -1,7 +1,9 @@
 package ru.mipt.sbt.reader.impl;
 
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import ru.mipt.sbt.reader.BankReportInfo;
 import ru.mipt.sbt.reader.ReportReader;
@@ -21,7 +23,13 @@ public class ExcelReportReader implements ReportReader {
 
     @Override
     public BankReportInfo readFromFile(File file, int yearOrder) {
-        try (XSSFWorkbook myExcelBook = new XSSFWorkbook(new FileInputStream(file))) {
+        try (FileInputStream fileIS = new FileInputStream(file)) {
+            Workbook myExcelBook;
+            if (file.getAbsolutePath().split("\\.")[1].equalsIgnoreCase("xlsx")) {
+                myExcelBook = new XSSFWorkbook(fileIS);
+            } else {
+                myExcelBook = new HSSFWorkbook(fileIS);
+            }
             BankReportInfo bankReportInfo = new BankReportInfo();
             bankReportInfo.setTotalActives(getValue(myExcelBook, ACTIVE_SHEET_NAME, "ИТОГО АКТИВОВ", yearOrder))
                     .setTotalPassives(getValue(myExcelBook, PASSIVE_SHEET_NAME, "ИТОГО ОБЯЗАТЕЛЬСТВ И СОБСТВЕННЫХ СРЕДСТВ", yearOrder))
@@ -47,11 +55,11 @@ public class ExcelReportReader implements ReportReader {
         return null;
     }
 
-    private static Double getValue(XSSFWorkbook myExcelBook, String sheetName, String rowName, int columnNumber) {
-        XSSFSheet sheet = myExcelBook.getSheet(sheetName);
+    private static Double getValue(Workbook myExcelBook, String sheetName, String rowName, int columnNumber) {
+        Sheet sheet = myExcelBook.getSheet(sheetName);
         Double value = null;
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-            XSSFRow row = sheet.getRow(i);
+            Row row = sheet.getRow(i);
             if (row.getCell(0).getStringCellValue().trim().equalsIgnoreCase(rowName)) {
                 value = row.getCell(columnNumber).getNumericCellValue();
                 break;
@@ -65,9 +73,9 @@ public class ExcelReportReader implements ReportReader {
         return value;
     }
 
-    private static String getYear(XSSFWorkbook myExcelBook, String sheetName, String rowName, int columnNumber) {
-        XSSFSheet sheet = myExcelBook.getSheet(sheetName);
-        XSSFRow row = sheet.getRow(0);
+    private static String getYear(Workbook myExcelBook, String sheetName, String rowName, int columnNumber) {
+        Sheet sheet = myExcelBook.getSheet(sheetName);
+        Row row = sheet.getRow(0);
         String value;
         value = row.getCell(columnNumber).getStringCellValue();
         if (value == null) {
