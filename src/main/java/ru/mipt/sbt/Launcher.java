@@ -9,7 +9,7 @@ import ru.mipt.sbt.scenes.UploadFileScene;
 /**
  * Created by Toma on 28.05.2017.
  */
-public class MultScenes extends Application {
+public class Launcher extends Application {
 
     public static void main(String[] args) {
         launch((String) null);
