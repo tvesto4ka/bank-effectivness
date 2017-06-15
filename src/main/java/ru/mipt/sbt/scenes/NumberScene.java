@@ -64,7 +64,7 @@ public class NumberScene {
             try {
                 year = Integer.valueOf(userTextField.getText());
                 try {
-                    if (year.equals(0)) {
+                    if (year <= 0) {
                         infoMess.setFill(Color.FIREBRICK);
                         infoMess.setText("Введите положительное число!");
                     } else {
