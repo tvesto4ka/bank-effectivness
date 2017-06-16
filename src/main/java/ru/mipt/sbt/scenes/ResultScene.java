@@ -7,12 +7,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import ru.mipt.sbt.GraphPanel;
 import ru.mipt.sbt.builder.Norms;
 import ru.mipt.sbt.builder.Value;
 import ru.mipt.sbt.utils.Constants;
 import ru.mipt.sbt.utils.ScenesUtils;
 import ru.mipt.sbt.writer.WriterService;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -28,6 +30,7 @@ public class ResultScene {
     private static final String outputFileName = "результаты анализа.xlsx";
     private Text reportInterfaceNorm;
     private Text reportInterfaceNotNorm;
+    private Map<Norms, List<Value>> values;
 
     private final DirectoryChooser directoryChooser = new DirectoryChooser();
     private WriterService writerService = new WriterService();
@@ -81,6 +84,13 @@ public class ResultScene {
             }
         });
 
+        JFXButton graphBtn = ScenesUtils.createButton("Показать график", 800.0, 350.0);
+        graphBtn.setOnAction(event -> {
+            GraphPanel panel = new GraphPanel();
+            panel.setScores(this.values);
+            SwingUtilities.invokeLater(GraphPanel::createAndShowGui);
+        });
+
         Pane mainPane = new Pane();
         mainPane.getChildren().add(reportInterfaceNorm);
         mainPane.getChildren().add(reportInterfaceNotNorm);
@@ -88,6 +98,7 @@ public class ResultScene {
         mainPane.getChildren().add(reportFile);
         mainPane.getChildren().add(nextBtn);
         mainPane.getChildren().add(prevBtn);
+        mainPane.getChildren().add(graphBtn);
 
         resultScene = ScenesUtils.createScene(mainPane, primaryStage);
     }
@@ -114,5 +125,9 @@ public class ResultScene {
 
     public void setNextScene(UploadFileScene nextScene) {
         this.nextScene = nextScene;
+    }
+
+    public void setValues(Map<Norms, List<Value>> values) {
+        this.values = values;
     }
 }
