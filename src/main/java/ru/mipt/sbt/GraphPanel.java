@@ -1,13 +1,9 @@
 package ru.mipt.sbt;
 
-import ru.mipt.sbt.builder.Norms;
-import ru.mipt.sbt.builder.Value;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Toma on 28.05.2017.
@@ -16,30 +12,31 @@ public class GraphPanel extends JPanel {
 
     private int padding = 25;
     private int labelPadding = 25;
-    private Color lineColor = new Color(44, 102, 230, 180);
     private Color pointColor = new Color(100, 100, 100, 180);
     private Color gridColor = new Color(200, 200, 200, 200);
     private static final Stroke GRAPH_STROKE = new BasicStroke(2f);
     private int pointWidth = 4;
     private int numberYDivisions = 10;
-    private static List<Double> scores;
     private int numberOfYears;
+
+    private final List<Integer> x;
+    private final List<Double>[] y;
+    private final double xScale;
+    private final double yScale;
+
+    public GraphPanel(List<Integer> x, List<Double>... y) {
+        this.x = x;
+        this.y = y;
+        numberOfYears = x.size();
+        xScale = ((double) getWidth() - (2 * padding) - labelPadding) / (x.size() - 1);
+        yScale = ((double) getHeight() - 2 * padding - labelPadding);
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        double xScale = ((double) getWidth() - (2 * padding) - labelPadding) / (scores.size() - 1);
-        double yScale = ((double) getHeight() - 2 * padding - labelPadding);
-
-        List<Point> graphPoints = new ArrayList<>();
-        for (int i = 0; i < scores.size(); i++) {
-            int x1 = (int) (i * xScale + padding + labelPadding);
-            int y1 = (int) ((1 - scores.get(i)) * yScale + padding);
-            graphPoints.add(new Point(x1, y1));
-        }
 
         // draw white background
         g2.setColor(Color.WHITE);
@@ -88,6 +85,20 @@ public class GraphPanel extends JPanel {
         g2.drawLine(padding + labelPadding, getHeight() - padding - labelPadding, padding + labelPadding, padding);
         g2.drawLine(padding + labelPadding, getHeight() - padding - labelPadding, getWidth() - padding, getHeight() - padding - labelPadding);
 
+
+        drawLine(g2, y[0], Color.BLUE);
+//        drawLine(g2, y[1], Color.GREEN);
+//        drawLine(g2, y[2], Color.magenta);
+    }
+
+    private void drawLine(Graphics2D g2, List<Double> yAxe, Color lineColor) {
+        List<Point> graphPoints = new ArrayList<>();
+        for (int i = 0; i < x.size(); i++) {
+            int x1 = (int) (i * xScale + padding + labelPadding);
+            int y1 = (int) ((1 - yAxe.get(i)) * yScale + padding);
+            graphPoints.add(new Point(x1, y1));
+        }
+
         Stroke oldStroke = g2.getStroke();
         g2.setColor(lineColor);
         g2.setStroke(GRAPH_STROKE);
@@ -110,24 +121,11 @@ public class GraphPanel extends JPanel {
         }
     }
 
-    public void setScores(Map<Norms, List<Value>> values) {
-        List<Double> temp = new ArrayList<>();
-        for (Value value : values.get(Norms.CAPITAL_ADEQUACY)) {
-            temp.add(value.getValue());
-        }
-        GraphPanel.scores = temp;
-        numberOfYears = temp.size();
-        invalidate();
-        this.repaint();
-    }
-
-    public static void createAndShowGui() {
-
-        GraphPanel mainPanel = new GraphPanel();
-        mainPanel.setPreferredSize(new Dimension(800, 600));
+    public void createAndShowGui() {
+        this.setPreferredSize(new Dimension(800, 600));
         JFrame frame = new JFrame("Изменение показателей стабильности");
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        frame.getContentPane().add(mainPanel);
+        frame.getContentPane().add(this);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
