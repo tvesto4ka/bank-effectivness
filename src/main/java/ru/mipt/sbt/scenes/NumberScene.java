@@ -37,7 +37,7 @@ public class NumberScene {
         WriterService writerService = new WriterService();
         ReaderService readerService = new ReaderService();
         AnalysisService analysisService = new AnalysisService();
-        final Text welcomeMess = ScenesUtils.createText("Пожалуйста, введите количество дат для анализа", 280, 180, Constants.HEADER_FONT);
+        final Text welcomeMess = ScenesUtils.createText("Пожалуйста, введите количество периодов для анализа", 280, 180, Constants.HEADER_FONT);
         infoMess = ScenesUtils.createText(null, 380, 270, Constants.FONT);
         nextBtn = ScenesUtils.createButton("Посмотреть результаты", 530.0, 350.0);
         nextBtn.setDisable(true);
@@ -73,7 +73,7 @@ public class NumberScene {
                         values = analysisService.analyseReport(data);
                         //writerService.writeResultInConsole(values);
                         infoMess.setFill(Color.DODGERBLUE);
-                        infoMess.setText("Выбранное количество дат \nуспешно проанализировано");
+                        infoMess.setText("Выбранное количество периодов \nуспешно проанализировано");
                         nextBtn.setDisable(false);
                     }
                 } catch (RuntimeException e) {
