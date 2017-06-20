@@ -22,6 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by Toma on 09.06.2017.
@@ -86,9 +87,10 @@ public class ResultScene {
 
         JFXButton graphBtn = ScenesUtils.createButton("Показать график", 800.0, 350.0);
         graphBtn.setOnAction(event -> {
-            GraphPanel panel = new GraphPanel();
-            panel.setScores(this.values);
-            SwingUtilities.invokeLater(GraphPanel::createAndShowGui);
+            List<Integer> years = values.values().iterator().next().stream().map(value -> Integer.valueOf(value.getDate().substring(7, 10))).collect(Collectors.toList());
+//            GraphPanel panel = new GraphPanel(years, getLine(Norms.CAPITAL_ADEQUACY), getLine(Norms.GENERAL_STABILITY), getLine(Norms.INSTANT_LIQUIDITY));
+            GraphPanel panel = new GraphPanel(years, getLine(Norms.CAPITAL_ADEQUACY));
+            SwingUtilities.invokeLater(panel::createAndShowGui);
         });
 
         Pane mainPane = new Pane();
@@ -101,6 +103,10 @@ public class ResultScene {
         mainPane.getChildren().add(graphBtn);
 
         resultScene = ScenesUtils.createScene(mainPane, primaryStage);
+    }
+
+    private List<Double> getLine(Norms norm) {
+        return this.values.get(norm).stream().map(Value::getValue).collect(Collectors.toList());
     }
 
     public void recreateScene() {
