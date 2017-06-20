@@ -48,7 +48,6 @@ public class NumberScene {
             nextScene.getReportInterfaceNorm().setText(resultNorm);
             nextScene.getReportInterfaceNotNorm().setFill(Color.FIREBRICK);
             nextScene.getReportInterfaceNotNorm().setText(resultNotNorm);
-            nextScene.setValues(getValues());
             nextScene.recreateScene();
             primaryStage.setScene(nextScene.getScene());
         });

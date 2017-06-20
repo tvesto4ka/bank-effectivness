@@ -7,14 +7,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import ru.mipt.sbt.GraphPanel;
 import ru.mipt.sbt.builder.Norms;
 import ru.mipt.sbt.builder.Value;
 import ru.mipt.sbt.utils.Constants;
 import ru.mipt.sbt.utils.ScenesUtils;
 import ru.mipt.sbt.writer.WriterService;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,7 +20,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Created by Toma on 09.06.2017.
@@ -31,7 +28,6 @@ public class ResultScene {
     private static final String outputFileName = "результаты анализа.xlsx";
     private Text reportInterfaceNorm;
     private Text reportInterfaceNotNorm;
-    private Map<Norms, List<Value>> values;
 
     private final DirectoryChooser directoryChooser = new DirectoryChooser();
     private WriterService writerService = new WriterService();
@@ -85,14 +81,6 @@ public class ResultScene {
             }
         });
 
-        JFXButton graphBtn = ScenesUtils.createButton("Показать график", 800.0, 350.0);
-        graphBtn.setOnAction(event -> {
-            List<Integer> years = values.values().iterator().next().stream().map(value -> Integer.valueOf(value.getDate().substring(7, 10))).collect(Collectors.toList());
-//            GraphPanel panel = new GraphPanel(years, getLine(Norms.CAPITAL_ADEQUACY), getLine(Norms.GENERAL_STABILITY), getLine(Norms.INSTANT_LIQUIDITY));
-            GraphPanel panel = new GraphPanel(years, getLine(Norms.CAPITAL_ADEQUACY));
-            SwingUtilities.invokeLater(panel::createAndShowGui);
-        });
-
         Pane mainPane = new Pane();
         mainPane.getChildren().add(reportInterfaceNorm);
         mainPane.getChildren().add(reportInterfaceNotNorm);
@@ -100,13 +88,8 @@ public class ResultScene {
         mainPane.getChildren().add(reportFile);
         mainPane.getChildren().add(nextBtn);
         mainPane.getChildren().add(prevBtn);
-        mainPane.getChildren().add(graphBtn);
 
         resultScene = ScenesUtils.createScene(mainPane, primaryStage);
-    }
-
-    private List<Double> getLine(Norms norm) {
-        return this.values.get(norm).stream().map(Value::getValue).collect(Collectors.toList());
     }
 
     public void recreateScene() {
@@ -131,9 +114,5 @@ public class ResultScene {
 
     public void setNextScene(UploadFileScene nextScene) {
         this.nextScene = nextScene;
-    }
-
-    public void setValues(Map<Norms, List<Value>> values) {
-        this.values = values;
     }
 }
