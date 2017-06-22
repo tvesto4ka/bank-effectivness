@@ -79,7 +79,7 @@ public class NumberScene {
                 } catch (RuntimeException e) {
                     nextBtn.setDisable(true);
                     infoMess.setFill(Color.FIREBRICK);
-                    infoMess.setText("В файле нет данных на указанное число дат");
+                    infoMess.setText("В файле нет данных\nна указанное число периодов");
                 }
             } catch (RuntimeException e) {
                 nextBtn.setDisable(true);
